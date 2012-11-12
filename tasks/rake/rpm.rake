@@ -6,7 +6,7 @@ require 'rpm_packager'
 desc "Create RPM package from puppet module."
 task :rpm do
   puts "Creating RPM package from puppet module..."
-  module_name = ENV['JOB_NAME'].split('-')[1]
+  module_name = ENV['JOB_NAME'].sub(/[^-]+-(.*)/, '\1')
 
   rpm_packager = RpmPackager.new
   output = rpm_packager.build(module_name)
