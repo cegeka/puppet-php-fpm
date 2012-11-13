@@ -86,6 +86,28 @@ case "$1" in
                 fi
         ;;
 
+        status)
+                RETVAL="1"
+                if [ -f "${php_fpm_PID}" ]; then
+                  read kpid < $php_fpm_PID
+                  if checkpid $kpid 2>&1; then
+                    echo "$0 is already running (${kpid})"
+                    RETVAL="0"
+                  else
+                    echo "lock file found but no process running for pid $kpid"
+                  fi
+                else
+                  pid=$(pgrep -f "${php_fpm_BIN} --fpm --fpm-config ${php_fpm_CONF}")
+                  if [ -n "$pid" ]; then
+                  echo "$0 running (${pid}) but no PID file exists"
+                  RETVAL="0"
+                else
+                  echo "$0 is stopped"
+                fi
+              fi
+              exit $RETVAL
+        ;;
+
         quit)
                 echo -n "Gracefully shutting down php_fpm "
 
