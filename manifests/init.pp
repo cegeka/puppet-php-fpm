@@ -12,7 +12,7 @@
 #
 class php-fpm (
   $ensure             = present,
-  $php_version            = '5.2',
+  $php_version        = '5.2',
   $pidfile            = '/var/run/php-fpm.pid',
   $error_log          = '/var/log/php-fpm.log',
   $log_level          = 'debug',
