@@ -12,6 +12,7 @@
 #
 class php-fpm (
   $ensure             = present,
+  $php_version            = '5.2',
   $pidfile            = '/var/run/php-fpm.pid',
   $error_log          = '/var/log/php-fpm.log',
   $log_level          = 'debug',
@@ -21,9 +22,27 @@ class php-fpm (
   $listen_address     = '127.0.0.1:9000',
 ){
 
-  file { '/etc/php/php-fpm.conf':
+  $config_template = $php_version ? {
+    '5.2'   => 'php-fpm.erb',
+    '5.3'   => 'php53-fpm.erb',
+    default => '',
+  }
+
+  $init_template = $php_version ? {
+    '5.2'   => 'initd.erb',
+    '5.3'   => 'initd53.erb',
+    default => '',
+  }
+
+  $config_location = $php_version ? {
+    '5.2'   => '/etc/php/php-fpm.conf',
+    '5.3'   => '/etc/php-fpm.conf',
+    default => '',
+  }
+
+  file { $config_location:
     ensure  => $ensure,
-    content => template('php-fpm/php-fpm.erb'),
+    content => template("php-fpm/${config_template}"),
     require => File['/etc/php'],
   }
 
@@ -36,8 +55,8 @@ class php-fpm (
     mode    => '0755',
     owner   => 'root',
     group   => 'root',
-    content => template('php-fpm/initd.erb'),
-    require => File['/etc/php/php-fpm.conf'],
+    content => template("php-fpm/${init_template}"),
+    require => File[$config_location],
   }
 
   service { 'php-fpm':

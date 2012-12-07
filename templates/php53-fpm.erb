@@ -1,0 +1,71 @@
+;;;;;;;;;;;;;;;;;;;;;
+; FPM Configuration ;
+;;;;;;;;;;;;;;;;;;;;;
+
+[global]
+pid = <%= pidfile %>
+error_log = <%= error_log %>
+log_level = <%= log_level %>
+emergency_restart_threshold = 10 
+emergency_restart_interval = 1m
+process_control_timeout = 5s
+
+daemonize = <%= daemonize_proc %>
+
+;;;;;;;;;;;;;;;;;;;;
+; Pool Definitions ; 
+;;;;;;;;;;;;;;;;;;;;
+
+;include=/etc/php-fpm.d/*.conf
+
+; Start a new pool named 'www'.
+[www]
+
+listen = <%= listen_address %>
+
+listen.backlog = -1
+listen.allowed_clients = 127.0.0.1
+
+listen.owner = <%= user %>
+listen.group = <%= group %>
+;listen.mode = 0666
+
+user = <%= user %>
+group = <%= group %>
+
+;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
+;php_flag[display_errors] = off
+php_admin_value[error_log] = <%= error_log %>
+php_admin_flag[log_errors] = on
+;php_admin_value[memory_limit] = 32M
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 20
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+;pm.max_requests = 500
+;pm.status_path = /status
+;ping.path = /ping
+;ping.response = pong
+;request_terminate_timeout = 0
+;request_slowlog_timeout = 0
+
+slowlog = /var/log/php-fpm/www-slow.log
+
+rlimit_files = 1024
+rlimit_core = 0
+ 
+chroot = 
+chdir = 
+catch_workers_output = yes
+ 
+env[HOSTNAME] = $HOSTNAME
+env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
+env[OSTYPE] = $OSTYPE
+env[MACHTYPE] = $MACHTYPE
+env[MALLOC_CHECK_] = 2
