@@ -6,8 +6,8 @@ require 'deb_packager'
 desc "Create DEB package from puppet module."
 task :deb do
   puts "Creating DEB package from puppet module..."
-  module_name = ENV['JOB_NAME'].split('-')[1]
-  
+  module_name = ENV['JOB_NAME'].sub(/[^-]+-(.*)/, '\1')
+
   deb_packager = DebPackager.new
   output = deb_packager.build(module_name)
   puts output
