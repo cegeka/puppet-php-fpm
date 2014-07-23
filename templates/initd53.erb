@@ -22,7 +22,7 @@ fi
 
 RETVAL=0
 prog="php-fpm"
-pidfile=<%= pidfile %>
+pidfile=<%= @pidfile %>
 lockfile=${LOCKFILE-/var/lock/subsys/php-fpm}
 
 start () {

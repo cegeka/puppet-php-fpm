@@ -10,7 +10,7 @@
 
 php_fpm_BIN=/usr/bin/php-cgi
 php_fpm_CONF=/etc/php/php-fpm.conf
-php_fpm_PID=<%= pidfile %>
+php_fpm_PID=<%= @pidfile %>
 
 
 php_opts="--fpm-config $php_fpm_CONF"
@@ -167,4 +167,3 @@ case "$1" in
         ;;
 
 esac
-

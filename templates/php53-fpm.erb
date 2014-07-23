@@ -3,17 +3,17 @@
 ;;;;;;;;;;;;;;;;;;;;;
 
 [global]
-pid = <%= pidfile %>
-error_log = <%= error_log %>
-log_level = <%= log_level %>
-emergency_restart_threshold = 10 
+pid = <%= @pidfile %>
+error_log = <%= @error_log %>
+log_level = <%= @log_level %>
+emergency_restart_threshold = 10
 emergency_restart_interval = 1m
 process_control_timeout = 5s
 
-daemonize = <%= daemonize_proc %>
+daemonize = <%= @daemonize_proc %>
 
 ;;;;;;;;;;;;;;;;;;;;
-; Pool Definitions ; 
+; Pool Definitions ;
 ;;;;;;;;;;;;;;;;;;;;
 
 ;include=/etc/php-fpm.d/*.conf
@@ -21,21 +21,21 @@ daemonize = <%= daemonize_proc %>
 ; Start a new pool named 'www'.
 [www]
 
-listen = <%= listen_address %>
+listen = <%= @listen_address %>
 
 listen.backlog = -1
 listen.allowed_clients = 127.0.0.1
 
-listen.owner = <%= user %>
-listen.group = <%= group %>
+listen.owner = <%= @user %>
+listen.group = <%= @group %>
 ;listen.mode = 0666
 
-user = <%= user %>
-group = <%= group %>
+user = <%= @user %>
+group = <%= @group %>
 
 ;php_admin_value[sendmail_path] = /usr/sbin/sendmail -t -i -f www@my.domain.com
 ;php_flag[display_errors] = off
-php_admin_value[error_log] = <%= error_log %>
+php_admin_value[error_log] = <%= @error_log %>
 php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 32M
 
@@ -56,11 +56,11 @@ slowlog = /var/log/php-fpm/www-slow.log
 
 rlimit_files = 1024
 rlimit_core = 0
- 
-chroot = 
-chdir = 
+
+chroot =
+chdir =
 catch_workers_output = yes
- 
+
 env[HOSTNAME] = $HOSTNAME
 env[PATH] = /usr/local/bin:/usr/bin:/bin
 env[TMP] = /tmp
