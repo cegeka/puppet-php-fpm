@@ -1,5 +1,5 @@
 = puppet-php-fpm module
 
-{<img src='https://codex.cegeka.be/jenkins/job/puppet-php-fpm/badge/icon' />}[https://codex.cegeka.be/jenkins/job/puppet-php-fpm/]
+{<img src='https://jenkins-iac.cegeka.be/job/puppet-php-fpm/badge/icon' />}[https://jenkins-iac.cegeka.be/job/puppet-php-fpm/]
 
 This is the php-fpm module.
